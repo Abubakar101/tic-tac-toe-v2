@@ -1,0 +1,31 @@
+.player-info-container {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 1rem;
+  background-color: teal;
+}
+.player-input {
+  display: flex;
+  flex-direction: column;
+}
+.player-input * {
+  margin: 0.2rem 0;
+}
+
+.box-container {
+  display: flex;
+  padding: 1rem;
+  width: 50%;
+  background: teal;
+}
+
+.box-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  width: 3%;
+  aspect-ratio: 1 / 1;
+}
