@@ -4,10 +4,12 @@
   padding: 1rem;
   background-color: teal;
 }
+
 .player-input {
   display: flex;
   flex-direction: column;
 }
+
 .player-input * {
   margin: 0.2rem 0;
 }

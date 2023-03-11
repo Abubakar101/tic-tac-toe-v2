@@ -68,7 +68,7 @@ const validate = (array, x, y, goal) => {
 
     if (totalCounts >= goal) {
       return true;
-    } 
+    }
   }
   return false;
 };
