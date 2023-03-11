@@ -5,7 +5,29 @@ const setInnerHTMLValue = (selector, value) => {
 
 const ratioSelecter = document.getElementById("ratio");
 const goalSelector = document.getElementById("goal");
-const player = document.getElementById("player");
+const playerSelector = document.getElementById("player");
+const boxSelector = document.getElementById("box");
+
+const createBoxes = (ratio) => {
+  const nodes = [];
+  let count = 1;
+  for (let index = 0; index < ratio; index++) {
+    const rowDiv = document.createElement("div");
+    rowDiv.setAttribute("class", "row");
+    rowDiv.setAttribute("data-row", index);
+
+    for (let secIndex = 0; secIndex < ratio; secIndex++) {
+      const columnBox = document.createElement("div");
+      columnBox.setAttribute("class", "column");
+      rowDiv.setAttribute("data-column", secIndex);
+      columnBox.innerHTML = count;
+      count++;
+      rowDiv.appendChild(columnBox);
+    }
+    nodes.push(rowDiv);
+  }
+  boxSelector.replaceChildren(...nodes);
+};
 
 ratioSelecter.addEventListener("input", () => {
   if (ratioSelecter.valueAsNumber <= goalSelector.valueAsNumber) {
@@ -16,7 +38,9 @@ ratioSelecter.addEventListener("input", () => {
     "#ratio-number",
     `${ratioSelecter.valueAsNumber} x ${ratioSelecter.valueAsNumber}`
   );
+  createBoxes(ratioSelecter.valueAsNumber);
 });
+
 goalSelector.addEventListener("input", () => {
   if (goalSelector.valueAsNumber >= ratioSelecter.valueAsNumber) {
     ratioSelecter.value = goalSelector.valueAsNumber;
@@ -24,6 +48,21 @@ goalSelector.addEventListener("input", () => {
       "#ratio-number",
       `${ratioSelecter.valueAsNumber} x ${ratioSelecter.valueAsNumber}`
     );
+
+    createBoxes(ratioSelecter.valueAsNumber);
   }
   setInnerHTMLValue("#goal-number", goalSelector.valueAsNumber);
+});
+
+playerSelector.addEventListener("input", () => {
+  const setNewRatioValue = (playerSelector.valueAsNumber - 1) * 3;
+  if (ratioSelecter.valueAsNumber < setNewRatioValue) {
+    ratioSelecter.value = setNewRatioValue;
+    setInnerHTMLValue(
+      "#ratio-number",
+      `${ratioSelecter.valueAsNumber} x ${ratioSelecter.valueAsNumber}`
+    );
+    createBoxes(ratioSelecter.valueAsNumber);
+  }
+  setInnerHTMLValue("#player-number", playerSelector.valueAsNumber);
 });
