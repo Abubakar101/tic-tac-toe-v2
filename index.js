@@ -1,8 +1,6 @@
-const ratioSelecter = document.getElementById("ratio");
-const goalSelector = document.getElementById("goal");
-const playerSelector = document.getElementById("player");
-const boxSelector = document.getElementById("box");
-let initRowArray = [];
+/*
+  GAME LOGIC
+*/
 
 const directions = {
   0: {
@@ -47,7 +45,7 @@ const directions = {
   },
 };
 
-const validate = (array, x, y, goal) => {
+const validatePlayerChoices = (array, x, y, goal) => {
   const currentValue = array[y][x];
   for (let key in directions) {
     const dir = directions[key];
@@ -78,6 +76,16 @@ const validate = (array, x, y, goal) => {
   }
   return false;
 };
+
+/*
+  BROWSER RELATED CODE
+*/
+
+const ratioSelecter = document.getElementById("ratio");
+const goalSelector = document.getElementById("goal");
+const playerSelector = document.getElementById("player");
+const boxSelector = document.getElementById("box");
+let initRowArray = [];
 
 const setInnerHTMLValue = (selector, value) => {
   const element = document.querySelector(selector);
@@ -159,9 +167,15 @@ boxSelector.addEventListener("click", (event) => {
     if (row.className === "row") {
       const rowIndex = row.getAttribute("data-row");
       const columnIndex = column.getAttribute("data-column");
-      console.log(">>>>", rowIndex, columnIndex, goalSelector.valueAsNumber, initRowArray);
+      console.log(
+        ">>>>",
+        rowIndex,
+        columnIndex,
+        goalSelector.valueAsNumber,
+        initRowArray
+      );
       initRowArray[rowIndex][columnIndex] = 1;
-      const validation = validate(
+      const validation = validatePlayerChoices(
         initRowArray,
         rowIndex,
         columnIndex,
