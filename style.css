@@ -38,3 +38,21 @@ body {
   margin: 0.2rem;
   aspect-ratio: 1 / 1;
 }
+
+.column:hover {
+  background: antiquewhite;
+  cursor: pointer;
+}
+
+.column:active {
+  animation: name-of-animation 5s;
+}
+
+@keyframes name-of-animation {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
