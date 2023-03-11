@@ -7,39 +7,40 @@
     <title>Tic Tac Toe</title>
   </head>
   <body>
-    <section class="player-info-container">
-      <div class="player-input">
-        <label for="ratio"
-          >Select Box Ratio: <span id="ratio-number">3 x 3</span></label
-        >
-        <input type="range" id="ratio" min="3" value="3" />
-      </div>
-      <div class="player-input">
-        <label for="goal"
-          >Select Total Marks: <span id="goal-number">3</span></label
-        >
-        <input type="range" id="goal" min="3" value="3" />
-      </div>
-      <div class="player-input">
-        <label for="players"
-          >Select Players Count: <span id="player-number">2</span></label
-        >
-        <input type="range" id="player" min="2" value="2" />
-      </div>
-    </section>
+<section class="player-info-container">
+  <div class="player-input">
+    <label for="ratio">Select Box Ratio: <span id="ratio-number">3 x 3</span></label>
+    <input type="range" id="ratio" min="3" value="3" />
+  </div>
+  <div class="player-input">
+    <label for="goal">Select Total Marks: <span id="goal-number">3</span></label>
+    <input type="range" id="goal" min="3" value="3" />
+  </div>
+  <div class="player-input">
+    <label for="players">Select Players Count: <span id="player-number">2</span></label>
+    <input type="range" id="player" min="2" max="30" value="2" />
+  </div>
+</section>
 
-    <section class="game-container">
-      <div class="box-container">
-        <div class="box-item">1</div>
-        <!--     <div class="grid-item">2</div>
-          <div class="grid-item">3</div>
-          <div class="grid-item">4</div>
-          <div class="grid-item">5</div>
-          <div class="grid-item">6</div>
-          <div class="grid-item">7</div>
-          <div class="grid-item">8</div>
-          <div class="grid-item">9</div> -->
-      </div>
-    </section>
+<section class="game-container">
+  <div id="box" class="box-container">
+    <div id="0" class="row">
+      <div class="column">1</div>
+      <div class="column">2</div>
+      <div class="column">3</div>
+    </div>
+    <div id="1" class="row">
+      <div class="column">4</div>
+      <div class="column">5</div>
+      <div class="column">6</div>
+    </div>
+    <div id="2" class="row">
+      <div class="column">7</div>
+      <div class="column">8</div>
+      <div class="column">9</div>
+    </div>
+
+  </div>
+</section>
   </body>
 </html>
