@@ -10,7 +10,6 @@ const boxSelector = document.getElementById("box");
 
 const createBoxes = (ratio) => {
   const nodes = [];
-  let count = 1;
   for (let index = 0; index < ratio; index++) {
     const rowDiv = document.createElement("div");
     rowDiv.setAttribute("class", "row");
@@ -20,8 +19,6 @@ const createBoxes = (ratio) => {
       const columnDiv = document.createElement("div");
       columnDiv.setAttribute("class", "column");
       columnDiv.setAttribute("data-column", secIndex);
-      columnDiv.innerHTML = count;
-      count++;
       rowDiv.appendChild(columnDiv);
     }
     nodes.push(rowDiv);
