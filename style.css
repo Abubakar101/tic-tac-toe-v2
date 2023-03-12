@@ -39,7 +39,7 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  box-sizing: content-box;
+  overflow:auto;
   aspect-ratio: 1 / 1;
 }
 
