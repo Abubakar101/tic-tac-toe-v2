@@ -1,90 +1,16 @@
-/*
-  GAME LOGIC
-*/
-
-const directions = {
-  0: {
-    y: 0,
-    x: -1,
-    o: 4,
-  },
-  1: {
-    y: -1,
-    x: -1,
-    o: 5,
-  },
-  2: {
-    y: -1,
-    x: 0,
-    o: 6,
-  },
-  3: {
-    y: -1,
-    x: +1,
-    o: 7,
-  },
-  4: {
-    y: 0,
-    x: +1,
-    o: 0,
-  },
-  5: {
-    y: +1,
-    x: +1,
-    o: 1,
-  },
-  6: {
-    y: +1,
-    x: 0,
-    o: 2,
-  },
-  7: {
-    y: +1,
-    x: -1,
-    o: 3,
-  },
-};
-
-// rowIndex (y) (up/down) and columnIndex (x) (left/right)
-const validatePlayerChoices = (array, y, x, goal) => {
-  const currentValue = array[y][x];
-  for (let key in directions) {
-    const dir = directions[key];
-    const oppDir = directions[dir.o];
-
-    let totalCounts = 1;
-    let tmp_y = y + dir.y;
-    let tmp_x = x + dir.x;
-    while (array[tmp_y]?.[tmp_x] === currentValue) {
-      totalCounts++;
-      tmp_y = tmp_y + dir.y;
-      tmp_x = tmp_x + dir.x;
-    }
-
-    let tmp_oppDir_y = y + oppDir.y;
-    let tmp_oppDir_x = x + oppDir.x;
-    while (array[tmp_oppDir_y]?.[tmp_oppDir_x] === currentValue) {
-      totalCounts++;
-      tmp_oppDir_y = tmp_oppDir_y + oppDir.y;
-      tmp_oppDir_x = tmp_oppDir_x + oppDir.x;
-    }
-
-    if (totalCounts >= goal) {
-      return true;
-    }
-  }
-  return false;
-};
-
-/*
-  BROWSER RELATED CODE
-*/
-
 const ratioSelecter = document.getElementById("ratio");
 const goalSelector = document.getElementById("goal");
 const playerSelector = document.getElementById("player");
 const boxSelector = document.getElementById("box");
 let initRowArray = [];
+let initPlayerConfig = {};
+let currentPlayerTurn = 1; // zero is initial/reset value
+
+// const assignAlphabets = () => {};
+
+// https://css-tricks.com/snippets/javascript/random-hex-color/
+const generateRandomColor = () =>
+  Math.floor(Math.random() * 16777215).toString(16);
 
 const setInnerHTMLValue = (selector, value) => {
   const element = document.querySelector(selector);
@@ -116,6 +42,18 @@ const createBoxes = (ratio) => {
     nodes.push(rowDiv);
   }
   boxSelector.replaceChildren(...nodes);
+};
+
+const createPlayersConfig = (playersCount) => {
+  const init = {};
+  for (let index = 0; index < playersCount; index++) {
+    const alphabet = String.fromCharCode(65 + index);
+    init[index] = {
+      name: alphabet,
+      color: `#${generateRandomColor()}`,
+    };
+  }
+  return init;
 };
 
 ratioSelecter.addEventListener("input", () => {
@@ -157,6 +95,7 @@ playerSelector.addEventListener("input", () => {
     initRowArray = createRowColumnArray(ratioSelecter.valueAsNumber);
   }
   setInnerHTMLValue("#player-number", playerSelector.valueAsNumber);
+  initPlayerConfig = createPlayersConfig(playerSelector.valueAsNumber);
 });
 
 boxSelector.addEventListener("click", (event) => {
@@ -166,7 +105,12 @@ boxSelector.addEventListener("click", (event) => {
     if (row.className === "row") {
       const rowIndex = row.getAttribute("data-row");
       const columnIndex = column.getAttribute("data-column");
-      initRowArray[rowIndex][columnIndex] = 1;
+      const playerInfo = initPlayerConfig[currentPlayerTurn - 1];
+
+      initRowArray[rowIndex][columnIndex] = currentPlayerTurn;
+      column.innerHTML = playerInfo?.name;
+      column.style.backgroundColor = playerInfo?.color;
+
       const validation = validatePlayerChoices(
         initRowArray,
         Number(rowIndex),
@@ -174,19 +118,33 @@ boxSelector.addEventListener("click", (event) => {
         goalSelector.valueAsNumber
       );
 
-      console.log(">>> validation", validation);
+      console.log(
+        ">>> validation",
+        validation,
+        initPlayerConfig,
+        currentPlayerTurn
+      );
       if (validation) {
-        setInnerHTMLValue("#message", "YOU WIN");
+        setInnerHTMLValue("#message", `Player "${playerInfo.name}" is WINNER`);
+      } else {
+        if (playerSelector.valueAsNumber !== currentPlayerTurn) {
+          currentPlayerTurn++;
+        } else {
+          currentPlayerTurn = 1;
+        }
       }
     }
   }
 });
 
 const initialLoad = () => {
-  const defaultRatio = 3;
-  createBoxes(defaultRatio);
-  while (initRowArray.length < defaultRatio) {
-    initRowArray.push(new Array(defaultRatio).fill(0));
+  createBoxes(ratioSelecter.valueAsNumber);
+  // Create initial arrays 3x3
+  while (initRowArray.length < ratioSelecter.valueAsNumber) {
+    initRowArray.push(new Array(ratioSelecter.valueAsNumber).fill(0));
   }
+  // Create initial player configuration
+  initPlayerConfig = createPlayersConfig(playerSelector.valueAsNumber);
 };
+// Start The Game
 initialLoad();
